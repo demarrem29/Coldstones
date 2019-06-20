@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include <vector>
 #include "Lock.generated.h"
 
 UENUM(BlueprintType)		//"BlueprintType" is essential to include
@@ -20,7 +19,7 @@ USTRUCT(BlueprintType)
 struct FStone
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum")
 	EColors color;
 };
 
@@ -28,6 +27,6 @@ USTRUCT(BlueprintType)
 struct FLock
 {
 	GENERATED_BODY()
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
-		TArray<FStone> FLock;
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enum")
+		TArray<FStone> Stones;
 };

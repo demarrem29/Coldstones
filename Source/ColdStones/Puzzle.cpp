@@ -31,15 +31,15 @@ void UPuzzle::init()
 		{
 			FStone * tempstone = new FStone;
 			if (!tempstone) return;
-			Locks[i].FLock.Add(*tempstone); // Pick a random color from EColors between 1 and numstonecolors
-			Locks[i].FLock[j].color = static_cast<EColors>(UKismetMathLibrary::RandomInteger(mymode->numstonecolors))
+			Locks[i].Stones.Add(*tempstone); // Pick a random color from EColors between 1 and numstonecolors
+			Locks[i].Stones[j].color = static_cast<EColors>(UKismetMathLibrary::RandomInteger(mymode->numstonecolors));
 		}
 		
 	}
 }
 
 // Game mode sends user's guess and puzzle compares it to itself
-int32 UPuzzle::guess(struct FLock& inLock)
+int32 UPuzzle::guess(UPARAM(ref) struct FLock& inLock)
 {
 	FLock *Lock = &inLock;					// Dereference pointer from input
 	if (!Lock) return NULL;						// Check pointer before accessing
@@ -52,7 +52,7 @@ int32 UPuzzle::guess(struct FLock& inLock)
 	for (int i = 0; i < mymode->numstonesperlock; i++)			// Iterate through guess lock, looking for perfect matches first
 	{
 		correctguess[i] = 2;
-		if (Lock[0].FLock[i].color == Locks[locks_opened].stones[i].color) // Exact match found
+		if (Lock[0].Stones[i].color == Locks[locks_opened].Stones[i].color) // Exact match found
 		{
 			retval[i] = 2;
 			stonematchguess[i] = 1;
@@ -73,7 +73,7 @@ int32 UPuzzle::guess(struct FLock& inLock)
 			{
 				if (stonematchactual[j] == 0)			// Skip over stones from puzzle that have already been matched
 				{
-					if (Lock->stones[i].color == Locks[locks_opened].stones[j].color) // Partial match found
+					if (Lock[0].Stones[i].color == Locks[locks_opened].Stones[j].color) // Partial match found
 					{
 						retval[i] = 1;
 						stonematchguess[i] = 1;
@@ -86,7 +86,7 @@ int32 UPuzzle::guess(struct FLock& inLock)
 		}
 		if (stonematchguess[i] == 0) retval[i] = 0;	// If no matches were found, mark it zero
 	}
-	if (retval == correctguess)													// If the guess was perfect
+	if (*retval == *correctguess)													// If the guess was perfect
 	{
 		// Move on to next lock
 		locks_opened++;

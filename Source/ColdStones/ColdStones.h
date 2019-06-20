@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include <vector>
-#include "ColdStonesGameModeBase.h"
 #include "Lock.h"
 #include "Puzzle.h"
+#include "ColdStonesGameModeBase.h"
+#include "ColdStonesPCBase.h"
 
 
