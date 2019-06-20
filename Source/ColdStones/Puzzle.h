@@ -14,7 +14,7 @@ class COLDSTONES_API UPuzzle : public UActorComponent
 {
 	GENERATED_BODY()
 public:	
-	// Sets default values for this component's properties
+	// Declare default values for this component's properties
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
 		int attempts;
 
@@ -22,11 +22,11 @@ public:
 		int locks_opened;
 	UPROPERTY(VisibleAnywhere)
 		class AColdStonesGameModeBase* mymode;
-	FLock* Locks;
+	TArray<FLock> Locks;
 	void init();
-	bool guess(FLock* inLock);
+	UFUNCTION(BlueprintCallable, Category="PuzzleFunctions")
+		int32 guess(struct FLock& inLock);
 	UPuzzle();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;	

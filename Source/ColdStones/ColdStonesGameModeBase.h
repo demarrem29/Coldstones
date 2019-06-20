@@ -34,5 +34,7 @@ public:
 		bool gameover;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
-		bool win;	
+		bool win;
+	UPROPERTY(VisibleAnywhere, Category = PuzzleProperties)
+		class UPuzzle* mypuzzle;
 };

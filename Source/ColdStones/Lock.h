@@ -28,5 +28,6 @@ USTRUCT(BlueprintType)
 struct FLock
 {
 	GENERATED_BODY()
-	FStone* stones;
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+		TArray<FStone> FLock;
 };
