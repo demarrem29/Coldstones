@@ -5,6 +5,7 @@
 
 void AColdStonesPCBase::AddStone(UPARAM(ref) struct FStone& inStone)
 {
+	if (!mypuzzle) return;											// Make sure a puzzle has been loaded
 	int32 retval;
 	CurrentGuess.Stones.Emplace(inStone);							// Append array with passed in stone, construct if necessary
 	if (CurrentGuess.Stones.Num() >= mygamemode->numstonesperlock)	// Is the guess complete?

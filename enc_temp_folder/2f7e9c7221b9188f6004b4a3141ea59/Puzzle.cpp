@@ -19,7 +19,6 @@ void UPuzzle::init()
 	{
 		return;
 	}
-	mymode->initialized = false;
 	attempts = 0;
 	locks_opened = 0;
 	mymode->mypuzzle = this;					// Give the gamemode a pointer to us
@@ -37,7 +36,6 @@ void UPuzzle::init()
 		}
 		
 	}
-	mymode->initialized = true;
 }
 
 // Game mode sends user's guess and puzzle compares it to itself

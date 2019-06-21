@@ -35,8 +35,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
 		bool win;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
-		bool initialized;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
 		class UPuzzle* mypuzzle;
 };
