@@ -7,7 +7,6 @@
 #include "Components/ActorComponent.h"
 #include "Puzzle.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class COLDSTONES_API UPuzzle : public UActorComponent
 {
@@ -21,10 +20,16 @@ public:
 		int locks_opened;
 	UPROPERTY(VisibleAnywhere)
 		class AColdStonesGameModeBase* mymode;
-	TArray<FLock> Locks;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PuzzleProperties")
+		TArray<FCone> Cones;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PuzzleProperties")
+		int numconescorrect;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PuzzleProperties")
+		int numflavorscorrect;
+
 	void init();
 	UFUNCTION(BlueprintCallable, Category="PuzzleFunctions")
-		int32 guess(UPARAM(ref) struct FLock& inLock);
+		void guess(UPARAM(ref) struct FCone& inCone);
 	UPuzzle();
 protected:
 	// Called when the game starts

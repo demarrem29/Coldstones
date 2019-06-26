@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "ColdStones.h"
 #include "GameFramework/PlayerController.h"
-#include "Lock.h"
+#include "Cone.h"
 #include "ColdStonesPCBase.generated.h"
 
 /**
@@ -21,12 +21,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pointers")
 		UPuzzle* mypuzzle;
-		
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PuzzleProperties")
-		struct FLock CurrentGuess;
+		struct FCone CurrentGuess;
 
 	UFUNCTION(BlueprintCallable, Category = "PuzzleFunctions")
-		void AddStone(UPARAM(ref) struct FStone& inStone);
+		void Init();
+	
+	UFUNCTION(BlueprintCallable, Category = "PuzzleFunctions")
+		void ModifyScoop(UPARAM(ref) EFlavors& inScoop, UPARAM(ref) int ScoopIndex);
 
 protected:
 	virtual void BeginPlay() override;

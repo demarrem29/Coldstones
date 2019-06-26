@@ -25,15 +25,12 @@ void UPuzzle::init()
 	mymode->mypuzzle = this;					// Give the gamemode a pointer to us
 	for (int i = 0; i < mymode->numlocks; i++)  // Instantiate locks
 	{
-		FLock * templock = new FLock;
-		if (!templock) return;
-		Locks.Add(*templock);	// Append lock array with a new lock reference
+		FCone * tempcone = new FCone;
+		if (!tempcone) return;
+		Cones.Add(*tempcone);	// Append lock array with a new lock reference
 		for (int j = 0; j < mymode->numstonesperlock; j++) // Instantiate each lock
 		{
-			FStone * tempstone = new FStone;
-			if (!tempstone) return;
-			Locks[i].Stones.Add(*tempstone); // Pick a random color from EColors between 1 and numstonecolors
-			Locks[i].Stones[j].color = static_cast<EColors>(UKismetMathLibrary::RandomInteger(mymode->numstonecolors));
+			Cones[i].Scoops.Add(static_cast<EFlavors>(UKismetMathLibrary::RandomInteger(mymode->numstonecolors))); // Pick a random flavor from EFlavors and add to array
 		}
 		
 	}
@@ -41,28 +38,28 @@ void UPuzzle::init()
 }
 
 // Game mode sends user's guess and puzzle compares it to itself
-int32 UPuzzle::guess(UPARAM(ref) struct FLock& inLock)
+void UPuzzle::guess(UPARAM(ref) struct FCone& inCone)
 {
-	FLock *Lock = &inLock;					// Dereference pointer from input
-	if (!Lock) return NULL;						// Check pointer before accessing
-	if (!mymode) return NULL;					// Check mode pointer before accessing
+	FCone *GuessCone = &inCone;					// Dereference pointer from input
+	if (!GuessCone) return;				// Check pointer before accessing
+	if (!mymode) return;					// Check mode pointer before accessing
 	
-	int32* retval = new int[mymode->numstonesperlock];		// Create return array
+	// Reset guess variables
+	numconescorrect = 0;
+	numflavorscorrect = 0;
+
 	int* stonematchguess = new int[mymode->numstonesperlock];	// Which stones from guess have already been matched this iteration
 	int* stonematchactual = new int[mymode->numstonesperlock];	// Which stones from lock have already been matched this iteration
-	int* correctguess = new int[mymode->numstonesperlock]; // Comparison array for stonematch
 	for (int i = 0; i < mymode->numstonesperlock; i++)			// Iterate through guess lock, looking for perfect matches first
 	{
-		correctguess[i] = 2;
-		if (Lock[0].Stones[i].color == Locks[locks_opened].Stones[i].color) // Exact match found
+		if (GuessCone->Scoops[i] == Cones[locks_opened].Scoops[i]) // Exact match found
 		{
-			retval[i] = 2;
+			numconescorrect++;
 			stonematchguess[i] = 1;
 			stonematchactual[i] = 1;
 		}
 		else 
 		{
-			retval[i] = 0;
 			stonematchguess[i] = 0;
 			stonematchactual[i] = 0;
 		}
@@ -75,9 +72,9 @@ int32 UPuzzle::guess(UPARAM(ref) struct FLock& inLock)
 			{
 				if (stonematchactual[j] == 0)			// Skip over stones from puzzle that have already been matched
 				{
-					if (Lock[0].Stones[i].color == Locks[locks_opened].Stones[j].color) // Partial match found
+					if (GuessCone->Scoops[i] == Cones[locks_opened].Scoops[j]) // Partial match found
 					{
-						retval[i] = 1;
+						numflavorscorrect++;
 						stonematchguess[i] = 1;
 						stonematchactual[j] = 1;
 					}
@@ -86,9 +83,8 @@ int32 UPuzzle::guess(UPARAM(ref) struct FLock& inLock)
 			}
 
 		}
-		if (stonematchguess[i] == 0) retval[i] = 0;	// If no matches were found, mark it zero
 	}
-	if (*retval == *correctguess)													// If the guess was perfect
+	if (numconescorrect == mymode->numstonesperlock)													// If the guess was perfect
 	{
 		// Move on to next lock
 		locks_opened++;
@@ -109,7 +105,7 @@ int32 UPuzzle::guess(UPARAM(ref) struct FLock& inLock)
 			attempts = 0;
 		}
 	}
-	return *retval;
+	return;
 }
 
 // Called when the game starts

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Lock.h"
+#include "Cone.h"
 #include "Puzzle.h"
 #include "ColdStonesGameModeBase.h"
 #include "ColdStonesPCBase.h"
