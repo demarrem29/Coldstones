@@ -11,8 +11,6 @@
 /**
  * 
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameoverDelegate, bool, gameover);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWinDelegate, bool, win);
 
 UCLASS()
 class COLDSTONES_API AColdStonesGameModeBase : public AGameModeBase
@@ -42,17 +40,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
 		bool initialized;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = PuzzleProperties)
-		class UPuzzle* mypuzzle;
-
-	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "Game Events"))
+		class UPuzzle* mypuzzle;	
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "On Gameover"))
 		void BP_OnGameover(bool ingameover);
+	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "On Gameover"))
+		void BP_OnAttempt(int inattempts);
+	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "On Gameover"))
+		void BP_OnOpen(int correctguesses);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "Game Events"))
-		void BP_OnWin(bool inwin);
-
-	FOnGameoverDelegate OnGameover;
-	FOnWinDelegate OnWin;
 protected:
 	// Called when the game starts
+	AColdStonesGameModeBase();
 	virtual void BeginPlay() override;
 };
