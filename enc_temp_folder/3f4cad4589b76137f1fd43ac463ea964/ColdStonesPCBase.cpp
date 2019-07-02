@@ -26,11 +26,6 @@ void AColdStonesPCBase::ModifyGuessScoop(UPARAM(ref) int attempts)
 	}
 }
 
-void AColdStonesPCBase::OnCorrect(int correct) 
-{
-	BP_OnCorrect(correct);
-}
-
 void AColdStonesPCBase::Init()												// Puzzle level was loaded, create a starting guess
 {
 	mygamemode = (AColdStonesGameModeBase*)GetWorld()->GetAuthGameMode();	// Get a pointer to game mode
@@ -55,7 +50,6 @@ void AColdStonesPCBase::BeginPlay()
 	Init();
 	if (!mypuzzle) return;
 	mypuzzle->OnAttempt.AddDynamic(this, &AColdStonesPCBase::ModifyGuessScoop);
-	mypuzzle->OnOpen.AddDynamic(this, &AColdStonesPCBase::OnCorrect);
 	Super::BeginPlay();
 	
 }

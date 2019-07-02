@@ -41,10 +41,6 @@ public:
 		void ModifyGuessScoop(UPARAM(ref) int attempts);					// When CurrentGuess scoops are clicked by user, update variable to match
 	UFUNCTION(BlueprintImplementableEvent, Category = "PuzzleFunctions")
 		void BP_OnAttempt();												// Expose delegate to blueprints so we can update UI
-	UFUNCTION(Category = "PuzzleFunctions")									// Called when puzzle locks_opened changes
-			void OnCorrect(int correct);
-	UFUNCTION(BlueprintImplementableEvent, Category = "PuzzleFunctions")	// Called by OnCorrect() to expose delegate to blueprints
-		void BP_OnCorrect(int correct);
 
 protected:
 	virtual void BeginPlay() override;
