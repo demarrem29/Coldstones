@@ -40,7 +40,7 @@ void AColdStonesPCBase::Init()												// Puzzle level was loaded, create a s
 	
 	for (int i = 0; i < mygamemode->numstonesperlock; i++)					// Populate guess array to start
 	{	
-		EFlavors flavor = static_cast<EFlavors>(UKismetMathLibrary::RandomInteger(mygamemode->numstonecolors));
+		EFlavors flavor = EFlavors::Vanilla;
 		// Add random scoops to the starting guess
 		CurrentGuess.Scoops.Emplace(flavor);
 	}
