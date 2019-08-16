@@ -12,23 +12,18 @@ void AColdStonesPCBase::ModifyScoop(UPARAM(ref) EFlavors& inScoop, UPARAM(ref) i
 	CurrentGuess.Scoops[ScoopIndex] = inScoop;								// Append array with passed in stone, construct if necessary
 }
 
-void AColdStonesPCBase::ModifyGuessScoop(UPARAM(ref) int attempts) 
+void AColdStonesPCBase::ModifyGuessScoop(UPARAM(ref)  bool gameover, int attempts, int locks_opened)
 {
 	if (attempts > 0) 
 	{
 		BadGuesses.Emplace(CurrentGuess);
-		BP_OnAttempt();
+		BP_OnGuess(gameover, attempts, locks_opened);
 	}
 	else 
 	{
 		BadGuesses.Empty();
-		BP_OnAttempt();
+		BP_OnGuess(gameover, attempts, locks_opened);
 	}
-}
-
-void AColdStonesPCBase::OnCorrect(int correct) 
-{
-	BP_OnCorrect(correct);
 }
 
 void AColdStonesPCBase::Init()												// Puzzle level was loaded, create a starting guess
@@ -54,8 +49,7 @@ void AColdStonesPCBase::BeginPlay()
 {	
 	Init();
 	if (!mypuzzle) return;
-	mypuzzle->OnAttempt.AddDynamic(this, &AColdStonesPCBase::ModifyGuessScoop);
-	mypuzzle->OnOpen.AddDynamic(this, &AColdStonesPCBase::OnCorrect);
+	mypuzzle->OnGuess.AddDynamic(this, &AColdStonesPCBase::ModifyGuessScoop);
 	Super::BeginPlay();
 	
 }

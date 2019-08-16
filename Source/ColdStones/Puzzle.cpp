@@ -21,9 +21,7 @@ void UPuzzle::init()
 	}
 	mymode->initialized = false;
 	attempts = 0;
-	OnAttempt.Broadcast(attempts);
 	locks_opened = 0;
-	OnOpen.Broadcast(locks_opened);
 	for (int i = 0; i < mymode->numlocks; i++)  // Instantiate locks
 	{
 		FCone * tempcone = new FCone;
@@ -89,13 +87,11 @@ void UPuzzle::guess(UPARAM(ref) struct FCone& inCone)
 	{
 		// Move on to next lock
 		locks_opened++;
-		OnOpen.Broadcast(locks_opened);
 		attempts = 0;
-		OnAttempt.Broadcast(attempts);
 		if (locks_opened >= mymode->numlocks)												// If that was the last lock, win instead
 		{
 			mymode->win = true;
-			OnGameover.Broadcast(true);
+			mymode->gameover = true;
 		}
 	}
 	else
@@ -104,12 +100,11 @@ void UPuzzle::guess(UPARAM(ref) struct FCone& inCone)
 		if (attempts >= mymode->numattempts)
 		{
 			mymode->win = false;
-			OnGameover.Broadcast(true);
+			mymode->gameover = true;
 			attempts = 0;
-			OnAttempt.Broadcast(attempts);
 		}
-		else OnAttempt.Broadcast(attempts);
 	}
+	OnGuess.Broadcast(mymode->gameover, attempts, locks_opened);
 	return;
 }
 

@@ -43,11 +43,7 @@ public:
 		class UPuzzle* mypuzzle;	
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "On Gameover"))
-		void BP_OnGameover(bool ingameover);
-	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "On Gameover"))
-		void BP_OnAttempt(int inattempts);
-	UFUNCTION(BlueprintImplementableEvent, Category = GameEvents, meta = (DisplayName = "On Gameover"))
-		void BP_OnOpen(int correctguesses);
+		void BP_OnGuess(bool ingameover, int inattempts, int inlocks_opened);
 
 protected:
 	// Called when the game starts
